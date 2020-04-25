@@ -1,0 +1,14 @@
+server:
+  port: 9999
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: ip
+          predicates:
+            - Path=/myip/**
+            - Method=GET
+          filters:
+            - AddRequestHeader=Accept, application/json
+            - RewritePath=/myip/(?<segment>.*),/$\{segment}
+          uri: http://www.ipapi.co
